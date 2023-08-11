@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra de Boleto</title>
+</head>
+
+<body>
+    <h1>Compra de Boleto</h1>
+    <form onsubmit="confirmarcompra()">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <label for="cantidad">Cantidad de boletos:</label>
+        <input type="number" id="cantidad" name="cantidad" min="1" value="1" required><br>
+
+        <label for="tipo_boleto">Tipo de boleto:</label>
+        <select id="tipo_boleto" name="tipo_boleto" required>
+            <option value="general">General</option>
+            <option value="vip">VIP</option>
+            <option value="backstage">Pase Backstage</option>
+        </select><br>
+
+        <label for="metodo_pago">Método de pago:</label>
+        <input type="radio" id="metodo_pago_tarjeta" name="metodo_pago" value="tarjeta" required>
+        <label for="metodo_pago_tarjeta">Tarjeta de crédito</label>
+        <input type="radio" id="metodo_pago_efectivo" name="metodo_pago" value="efectivo">
+        <label for="metodo_pago_efectivo">Efectivo</label><br>
+
+        <button type="button" onclick="confirmarcompra()">Comprar</button>
+    </form>
+
+    <script>
+        function confirmarcompra() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Felicitaciones, tu compra fue realizada con exito!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>
