@@ -5,37 +5,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compra de Boleto</title>
-</head>
-
-<body>
-    <h1>Compra de Boleto</h1>
-    <form onsubmit="confirmarcompra()">
-        <label for="nombre">Nombre completo:</label>
-        <input type="text" id="nombre" name="nombre" required><br>
-
-        <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" name="email" required><br>
-
-        <label for="cantidad">Cantidad de boletos:</label>
-        <input type="number" id="cantidad" name="cantidad" min="1" value="1" required><br>
-
-        <label for="tipo_boleto">Tipo de boleto:</label>
-        <select id="tipo_boleto" name="tipo_boleto" required>
-            <option value="general">General</option>
-            <option value="vip">VIP</option>
-            <option value="backstage">Pase Backstage</option>
-        </select><br>
-
-        <label for="metodo_pago">Método de pago:</label>
-        <input type="radio" id="metodo_pago_tarjeta" name="metodo_pago" value="tarjeta" required>
-        <label for="metodo_pago_tarjeta">Tarjeta de crédito</label>
-        <input type="radio" id="metodo_pago_efectivo" name="metodo_pago" value="efectivo">
-        <label for="metodo_pago_efectivo">Efectivo</label><br>
-
-        <button type="button" onclick="confirmarcompra()">Comprar</button>
-    </form>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Función para validar el formulario antes de enviarlo
+        function validarFormulario(event) {
+            // Obtener los valores de los campos del formulario
+            var nombre = document.getElementById("nombre").value;
+            var cantidad = parseInt(document.getElementById("cantidad").value);
+            var email = document.getElementById("email").value;
+            var metodoPago = document.getElementById("metodo_pago").value;
+            
+            // Verificar si algún campo está vacío
+            if (nombre === "" || isNaN(cantidad) || cantidad <= 0 || email === "" || metodoPago === "") {
+                // Mostrar una alerta de campos obligatorios
+                alert("Todos los campos son obligatorios. Por favor, complete todos los campos.");
+                event.preventDefault();
+                return false; // Impide el envío del formulario
+            }
+
+            // Obtener el stock del producto 
+            var productos = [
+                {
+                    "id": 1,
+                    "nombre": "Producto 1",
+                    "stock": 10 // Stock inicial
+                }
+            ];
+
+            var producto = productos.find(function (item) {
+                return item.id === 1; // ID del producto en tu formulario
+            });
+
+            // Verificar si la cantidad solicitada supera el stock disponible
+            if (cantidad > producto.stock) {
+                // Mostrar una alerta de stock insuficiente
+                alert("Stock insuficiente. La cantidad solicitada supera el stock disponible (" + producto.stock + " unidades).");
+                return false; // Impide el envío del formulario
+            }
+
+            
+
+            // Si todos los campos están completos y la cantidad es válida, el formulario se enviará
+            confirmarcompra();
+            //return true;
+        }
+        
+        function enviarFormulario() {
+    confirmarcompra();
+    document.getElementById("formulario_compra").submit();
+}
         function confirmarcompra() {
             Swal.fire({
                 icon: 'success',
@@ -44,8 +62,49 @@
                 timer: 1500
             })
         }
+        
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    
+</head>
+
+<body>
+    <h1>Formulario de Compra</h1>
+    <form id="formulario_compra" onsubmit="return validarFormulario(event)">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre"><br><br>
+        
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad"><br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        
+        <label for="metodo_pago">Método de Pago:</label>
+<select id="metodo_pago" name="metodo_pago">
+    <option value="efectivo">Efectivo</option>
+    <option value="tarjeta_credito">Tarjeta de Crédito</option>
+    <option value="tarjeta_debito">Tarjeta de Débito</option>
+    <option value="transferencia">Transferencia Bancaria</option>
+</select>
+        
+        <input type="submit" value="Enviar">
+    </form>
+    <script>
+        
+        // function confirmarcompra() {
+        //     Swal.fire({
+        //         icon: 'success',
+        //         title: 'Felicitaciones, tu compra fue realizada con exito!',
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     })
+        // }
+    </script>
+
+    
+    
+    <script src="comprar/comprar.js"></script>
 </body>
 
 </html>
